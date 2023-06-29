@@ -1,17 +1,18 @@
-import axios from "axios";
 import Link from "next/link";
 import { BookmarkIcon as SolideBookmarkIcon } from "@heroicons/react/solid";
 import { BookmarkIcon, LinkIcon } from "@heroicons/react/outline";
-import { persianDate, toPersianDigits } from "../../../utils/toPersianDigits";
+import { persianDate, toPersianDigits } from "@/utils/toPersianDigits";
 import { IoLogoLinkedin, IoLogoTwitter } from "react-icons/io";
 import { FaTelegram } from "react-icons/fa";
-import PostInteraction from "../../../components/posts/PostInteraction";
+import PostInteraction from "@/components/posts/PostInteraction";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useState } from "react";
 import { MdContentCopy } from "react-icons/md";
-import PostList from "../../../components/posts/PostList";
-import PostComments from "../../../components/posts/postCommets";
-import Layout from "../../../containers/Layout";
+import PostList from "@/components/posts/PostList";
+import PostComments from "@/components/posts/postCommets";
+import Layout from "@/containers/Layout";
+import http from "@/services/HttpService";
+import Head from "next/head";
 
 const PostSlug = ({ post }) => {
   const [copied, setCopied] = useState(false);
@@ -25,8 +26,11 @@ const PostSlug = ({ post }) => {
 
   return (
     <Layout>
+      {/* <Head>
+        <title>بلاگ ها</title>
+      </Head> */}
       <div>
-        <div className="md:max-w-screen-lg container mx-auto">
+        <div className="px-4 md:px-0 md:max-w-screen-lg container mx-auto ">
           <header className="max-w-screen-md flex flex-col md:flex-row gap-y-5 md:justify-between md:items-start mb-12 mx-auto ">
             {/* author data */}
             <div className="flex items-stretch">
@@ -234,11 +238,14 @@ const PostSlug = ({ post }) => {
 export default PostSlug;
 
 export async function getServerSideProps(context) {
-  const { params } = context;
+  const { params, req } = context;
 
-  const { data: post } = await axios.get(
-    `http://localhost:5000/api/posts/${params.PostSlug}`
-  );
+  const { data: post } = await http.get(`/posts/${params.PostSlug}`, {
+    withCredentials: true,
+    headers: {
+      Cookie: req.headers.cookie || "",
+    },
+  });
   return {
     props: {
       post: post.data,

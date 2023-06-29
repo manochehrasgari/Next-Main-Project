@@ -1,10 +1,13 @@
-import axios from "axios";
+
 import queryString from "query-string";
-import CategoryMobile from "../../components/posts/CategoryMobile";
-import CategoryDesktop from "../../components/posts/CategoryDesktop";
-import SortDesktop from "../../components/posts/SortDesktop";
-import PostList from "../../components/posts/PostList";
-import Layout from "../../containers/Layout";
+import CategoryMobile from "@/components/posts/CategoryMobile";
+import CategoryDesktop from "@/components/posts/CategoryDesktop";
+import SortDesktop from "@/components/posts/SortDesktop";
+import PostList from "@/components/posts/PostList";
+import Layout from "@/containers/Layout";
+import http from "@/services/HttpService";
+import Pagination from "@/common/Pagination";
+
 
 export default function CategorySlug({ blogs, category }) {
   return (
@@ -20,6 +23,9 @@ export default function CategorySlug({ blogs, category }) {
           {/* blog */}
           <div className="md:col-span-9 grid grid-cols-6 gap-8 max-h-[350px] ">
             <PostList blogs={blogs.docs} />
+            <div className="col-span-6 flex justify-center">
+            <Pagination blogs={blogs}/>
+           </div>
           </div>
         </div>
       </div>
@@ -28,16 +34,20 @@ export default function CategorySlug({ blogs, category }) {
 }
 
 export async function getServerSideProps(context) {
-  const { query } = context;
+  const { query, req } = context;
 
-  const { data: result } = await axios.get(
-    `http://localhost:5000/api/posts?${queryString.stringify(query)}`
+  const { data: result } = await http.get(
+    `/posts?${queryString.stringify(query)}`,
+    {
+      withCredentials: true,
+      headers: {
+        Cookie: req.headers.cookie || "",
+      },
+    }
   );
 
   const { data } = result;
-  const { data: category } = await axios.get(
-    "http://localhost:5000/api/post-category"
-  );
+  const { data: category } = await http.get("/post-category");
 
   return {
     props: {

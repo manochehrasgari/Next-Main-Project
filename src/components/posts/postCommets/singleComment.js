@@ -3,8 +3,7 @@ import { persianDate } from "../../../utils/toPersianDigits";
 import { useState } from "react";
 import CommentForm from "./commentForm";
 
-const SingleComment = ({ comment }) => {
-    const [commentValue , setCommentValue] = useState('')
+const SingleComment = ({ comment,postId }) => {
   const [onReply, setOnreply] = useState(false);
   return (
     <div className="rounded-xl mb-8 overflow-hidden shadow-lg border border-gray-100 bg-white">
@@ -29,7 +28,7 @@ const SingleComment = ({ comment }) => {
       {onReply && (
         <div className="mt-4">
           <span className="text-gray-500 text-sm">در حال پاسخ به {comment.writer?.name}</span>
-          <CommentForm comment={commentValue} setComment={setCommentValue} />
+          <CommentForm setReply={setOnreply} id={postId} responseTo={comment._id} />
         </div>
       )}
     </div>

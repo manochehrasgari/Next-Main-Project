@@ -1,14 +1,12 @@
-import Link from "next/link";
-import Layout from "../containers/Layout";
+import Layout from "@/containers/Layout";
+import { useAuth } from "@/context/AuthContext";
 
 const HomePage = () => {
+    const {user} = useAuth()
     return ( 
         <Layout>
         <div className="container mx-auto lg:max-w-screen-xl min-h-screen">
-            This is Home page
-            <Link href='/blogs'>
-                Go to Blog page
-            </Link>
+           سلام {user&& user.name} به Next-App خوش آمدی
         </div>
         </Layout>
      );
