@@ -33,7 +33,7 @@ const SortDesktop = () => {
               <li
                 onClick={() => sortHandler(item.id)}
                 key={item.id}
-                className={`py-4 cursor-pointer relative text-gray-700 ${item.id === sort ? 'text-purple-700 font-bold' : ''}`}
+                className={`py-2 cursor-pointer relative text-gray-700 ${item.id === sort ? 'text-purple-700 font-bold' : ''}`}
               >
                 {item.label}
               </li>
