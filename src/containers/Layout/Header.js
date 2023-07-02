@@ -20,9 +20,9 @@ const Header = () => {
           <div className="flex items-center gap-x-4">
             {user ? (
               <>
-                <Link href="/profile">
+                <div>
                   {user.name}
-                </Link>
+                </div>
                 <Link onClick={()=>dispatch({type:"SIGNOUT"})} href="/signup">خروج</Link>
               </>
             ) : (
