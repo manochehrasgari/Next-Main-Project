@@ -21,7 +21,7 @@ const SortDesktop = () => {
 
   return (
     <div className="hidden md:block md:col-span-9">
-      <div className="bg-white rounded-3xl px-4 flex items-center">
+      <div className="bg-white rounded-3xl px-4 py-2 flex items-center">
         <div className="flex items-center">
           <AdjustmentsIcon className="w-6 h-6 ml-2" />
           <span className="ml-8">مرتب سازی :</span>
