@@ -37,7 +37,7 @@ export default function BlogPage({ blogs, category }) {
 
 export async function getServerSideProps({ req, query }) {
   const { data: result } = await http.get(
-    `/posts?${queryString.stringify(query)}&limit=3`,
+    `/posts?${queryString.stringify(query)}&limit=6`,
     {
       withCredentials: true,
       headers: {
