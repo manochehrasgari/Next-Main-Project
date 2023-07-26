@@ -5,9 +5,9 @@ import Input from "@/components/FormInput";
 import Head from "next/head";
 import Layout from "@/containers/Layout";
 import React, { useEffect } from "react";
-import { useAuth, useAuthActions } from "@/context/AuthContext";
 import { useRouter } from "next/router";
-
+import { useDispatch, useSelector } from "react-redux";
+import { userSignup } from "src/redux/user/userActions";
 
 //  initial values
 const initialValues = {
@@ -37,15 +37,14 @@ const validationSchema = Yup.object({
 });
 
 const SignupForm = () => {
-  
-  const dispatch = useAuthActions()
-  const router = useRouter()
-  const {user} = useAuth()
- 
+  const user = useSelector((state) => state.userSignin.user);
+  const router = useRouter();
+  const dispatch = useDispatch();
+
   //  onSubmit
   const onSubmit = (values) => {
     const { name, email, phoneNumber, password } = values;
-    dispatch({type:"SIGNUP",payload:{name,email,password,phoneNumber}})
+    dispatch(userSignup({ name, email, password, phoneNumber }));
   };
 
   const formik = useFormik({
@@ -55,9 +54,9 @@ const SignupForm = () => {
     validateOnMount: true,
   });
 
-  useEffect(()=>{
-    if (user) router.push('/')
-   },[user])
+  useEffect(() => {
+    if (user) router.push("/");
+  }, [user]);
 
   return (
     <Layout>
@@ -65,7 +64,10 @@ const SignupForm = () => {
         <title>ثبت نام</title>
       </Head>
       <div className="md:max-w-md px-4 md:px-4 container  mx-auto">
-        <form onSubmit={formik.handleSubmit} className="flex flex-col space-y-4">
+        <form
+          onSubmit={formik.handleSubmit}
+          className="flex flex-col space-y-4"
+        >
           <h1 className="font-black text-2xl text-violet-700 mb-4">ثبت نام</h1>
           <Input label="نام و نام خانوادگی" name="name" formik={formik} />
           <Input label="ایمیل" name="email" formik={formik} />
@@ -76,8 +78,18 @@ const SignupForm = () => {
             formik={formik}
             placeholder="09121234567"
           />
-          <Input label="رمز عبور" name="password" type="password" formik={formik} />
-          <Input label="تکرار رمز" name="confirmPassword" type="password" formik={formik} />
+          <Input
+            label="رمز عبور"
+            name="password"
+            type="password"
+            formik={formik}
+          />
+          <Input
+            label="تکرار رمز"
+            name="confirmPassword"
+            type="password"
+            formik={formik}
+          />
 
           <button
             // type="submit"
@@ -87,7 +99,9 @@ const SignupForm = () => {
             ثبت نام
           </button>
           <Link href="/signin">
-            <p className="mt-4 py-4 cursor-pointer">قبلا ثبت نام کردی ؟ لاگین کنید</p>
+            <p className="mt-4 py-4 cursor-pointer">
+              قبلا ثبت نام کردی ؟ لاگین کنید
+            </p>
           </Link>
         </form>
       </div>

@@ -12,7 +12,7 @@ import PostList from "@/components/posts/PostList";
 import PostComments from "@/components/posts/postCommets";
 import Layout from "@/containers/Layout";
 import http from "@/services/HttpService";
-import Head from "next/head";
+
 
 const PostSlug = ({ post }) => {
   const [copied, setCopied] = useState(false);

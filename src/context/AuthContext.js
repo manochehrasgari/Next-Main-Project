@@ -26,7 +26,7 @@ const reducer = (state, action) => {
 
 const asyncActionHandlers = {
   SIGNIN:
-    ({ dispatch }) =>
+  ({ dispatch }) =>
     (action) => {
       dispatch({ type: "SIGNIN_PENDING" });
       http
@@ -42,7 +42,7 @@ const asyncActionHandlers = {
             dispatch({type: "SIGNIN_REJECT", error: err?.response?.data?.message})
             toast.error(err?.response?.data?.message)
         });
-    },
+  },
     // signup user 
   SIGNUP:
   ({ dispatch }) =>
@@ -53,7 +53,7 @@ const asyncActionHandlers = {
         withCredentials: true,
       })
       .then(({ data }) => {
-        // dispatch({ type: "SIGNIN_SUCCESS", payload: data });
+        dispatch({ type: "SIGNIN_SUCCESS", payload: null });
         toast.success("ثبتنام با موفقیت انجام شد");
         Router.push('/signin')
       })
